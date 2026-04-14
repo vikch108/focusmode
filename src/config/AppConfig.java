@@ -1,10 +1,12 @@
 package config;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AppConfig {
 	
-	public static final String[] BLOCKED_APPS ={
-		"msedge.exe"
-	};
+    public static List<String> BLOCKED_APPS = new ArrayList<>();
+    
 	
 	public static final int CHECK_INTERVAL = 1000;
 }

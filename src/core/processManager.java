@@ -1,24 +1,29 @@
 package core;
-import java.io.IOException;
-import java.lang.ProcessBuilder;
+
+import static java.lang.Thread.currentThread;
 
 import config.AppConfig;
+import java.util.List;
+
+
 
 public class processManager{
-	
-	public static void BlockApps(String[] BLOCKED_APPS){
-		for(String process :  BLOCKED_APPS){
-			kill(process);
-		}
-		
+	public static  boolean running = false;
+	public static void BlockApps(List<String> BLOCKED_APPS){
+    	new Thread(()->{
+    		while(running){
+    			for(String process : BLOCKED_APPS) {
+       				try {
+        				new ProcessBuilder("taskkill","/IM", process , "/F").start();
+        				Thread.sleep(AppConfig.CHECK_INTERVAL);
+        			} catch (Exception e) {
+        				e.fillInStackTrace();
+        			}
+    			}
+    		}
+    	}).start();
 		
 	}
-	public static void kill(String process){
-		try{
-			new ProcessBuilder("taskkill","/IM", process , "/F").start();
-		}catch(Exception e ){
-			System.out.println(e);
-		}
-	}
+
 	
 }
